@@ -2,10 +2,8 @@ import asyncio
 import configparser
 from msgraph.generated.models.o_data_errors.o_data_error import ODataError
 from graph import Graph
-import urllib3
 
 async def main():
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     print('Python Graph Test\n')
 
     # Load settings
@@ -64,8 +62,6 @@ async def greet_user(graph: Graph):
     user = await graph.get_user()
     if user:
         print('Hello,', user.display_name)
-        # For Work/school accounts, email is in mail property
-        # Personal accounts, email is in userPrincipalName
         print('Email:', user.mail or user.user_principal_name, '\n')
 
 async def display_access_token(graph: Graph):
@@ -95,8 +91,5 @@ async def make_graph_call_6(graph: Graph):
 
 async def make_graph_call_7(graph: Graph):
     await graph.make_graph_call_7()
-
-
-
 
 asyncio.run(main())
