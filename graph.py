@@ -11,7 +11,7 @@ from msgraph.generated.models.identity import Identity
 from msgraph.generated.models.modality import Modality
 from msgraph.generated.models.outgoing_call_options import OutgoingCallOptions
 from msgraph.generated.models.service_hosted_media_config import ServiceHostedMediaConfig
-
+from msgraph.generated.models.participant_info import ParticipantInfo
 
 class Graph:
     settings: SectionProxy
@@ -119,6 +119,51 @@ class Graph:
                 odata_type="#microsoft.graph.serviceHostedMediaConfig",
             ),
         )
+
+        async def make_graph_call_9(self, uid, num):
+            # dzwonienie na telefon
+            request_body = Call(
+                odata_type="#microsoft.graph.call",
+                callback_uri="https://bot.contoso.com/callback",
+                source=ParticipantInfo(
+                    odata_type="#microsoft.graph.participantInfo",
+                    identity=IdentitySet(
+                        odata_type="#microsoft.graph.identitySet",
+                        additional_data={
+                            "application_instance": {
+                                "@odata_type": "#microsoft.graph.identity",
+                                "display_name": "Calling Bot",
+                                "id": {uid},
+                            },
+                        }
+                    ),
+                    country_code=None,
+                    endpoint_type=None,
+                    region=None,
+                    language_id=None,
+                ),
+                targets=[
+                    InvitationParticipantInfo(
+                        odata_type="#microsoft.graph.invitationParticipantInfo",
+                        identity=IdentitySet(
+                            odata_type="#microsoft.graph.identitySet",
+                            additional_data={
+                                "phone": {
+                                    "@odata_type": "#microsoft.graph.identity",
+                                    "id": {num},
+                                },
+                            }
+                        ),
+                    ),
+                ],
+                requested_modalities=[
+                    Modality.Audio,
+                ],
+                media_config=ServiceHostedMediaConfig(
+                    odata_type="#microsoft.graph.serviceHostedMediaConfig",
+                ),
+                tenant_id="aa67bd4c-8475-432d-bd41-39f255720e0a",
+            )
 
         result = await self.user_client.communications.calls.post(request_body)
         print(result)
