@@ -30,6 +30,7 @@ async def main():
         print('6. Send message to chat')
         print('7. Get chat users')
         print('8. Call to user')
+        print('8. Call to phone user')
 
         try:
             choice = int(input())
@@ -55,6 +56,8 @@ async def main():
                 await make_graph_call_6(graph)
             elif choice == 8:
                 await make_graph_call_7(graph)
+            elif choice == 9:
+                await make_graph_call_8(graph)
             else:
                 print('Invalid choice!\n')
         except ODataError as odata_error:
@@ -95,6 +98,12 @@ async def make_graph_call_6(graph: Graph):
 
 async def make_graph_call_7(graph: Graph):
     await graph.make_graph_call_7()
+
+async def make_graph_call_8(graph: Graph):
+    await graph.make_graph_call_8()
+
+async def make_graph_call_9(graph: Graph):
+    await graph.make_graph_call_9()
 
 
 asyncio.run(main())
