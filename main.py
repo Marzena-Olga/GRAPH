@@ -2,8 +2,10 @@ import asyncio
 import configparser
 from msgraph.generated.models.o_data_errors.o_data_error import ODataError
 from graph import Graph
+import urllib3
 
 async def main():
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     print('Python Graph Test\n')
 
     # Load settings
@@ -21,11 +23,13 @@ async def main():
         print('Please choose one of the following options:')
         print('0. Exit')
         print('1. Display access token')
-        print('2. List my inbox')
-        print('3. Send mail')
-        print('4. Make a Graph call')
-        print('5. Make a Graph call 2')
-        print('6. Make a Graph call 3')
+        print('2. Get user properties by ID')
+        print('3. Get my properties')
+        print('4. Get list of chats by user ID')
+        print('5. Get chat by ID')
+        print('6. Send message to chat')
+        print('7. Get chat users')
+        print('8. Call to user')
 
         try:
             choice = int(input())
@@ -91,5 +95,6 @@ async def make_graph_call_6(graph: Graph):
 
 async def make_graph_call_7(graph: Graph):
     await graph.make_graph_call_7()
+
 
 asyncio.run(main())
